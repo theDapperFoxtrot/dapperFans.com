@@ -1,14 +1,51 @@
-import { useState } from "React";
+import React, { useState, useEffect } from "React";
 
 const Counter = () => {
   const [count, setCount] = useState(0);
 
+  useEffect(() => {
+    fetch("http://localhost:3000/counter")
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setCount(data.counter);
+      });
+  }, []);
+
   const handleIncrement = () => {
-    setCount(count + 1);
+    fetch("http://localhost:3000/counter", {
+      method: "PUT",
+      body: JSON.stringify({ counter: count + 1 }),
+      headers: {
+        "content-type": "application/json",
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setCount(data.counter);
+      });
   };
 
   const handleDecrement = () => {
-    setCount(count - 1);
+    fetch("http://localhost:3000/counter", {
+      method: "PUT",
+      body: JSON.stringify({ counter: count - 1 }),
+      headers: {
+        "content-type": "application/json",
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setCount(data.counter);
+      });
   };
 
   return (
